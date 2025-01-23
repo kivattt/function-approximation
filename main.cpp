@@ -2,7 +2,7 @@
 #include <math.h>
 #include <functional>
 
-#define PI 3.141592653589793238462643383279
+#include "sin.hpp"
 
 double max_error(std::function<double(double)> ourFunction,
                  std::function<double(double)> referenceFunction,
@@ -25,53 +25,14 @@ double orig_sin(double x) {
 	return sin(x);
 }
 
-/*double our_sin(double x) {
-	double a = -(4 / (PI * PI));
-	double b = 4 / PI;
-	double c = 0;
-	return a * (x*x) + b*x + c;
-}*/
-
-double our_sin(double x) {
-	double a = -(4 / (M_PI * M_PI));
-	double b = 4 / M_PI;
-
-	if (x < 0)
-		return -a * (x*x) + b*x;
-	else
-		return a * (x*x) + b*x;
-}
-
 int main() {
-	/*{
-		std::cout << "Range 0 to Pi" << std::endl;
-
-		double sinErr = max_error(orig_sin, orig_sin, 0, PI);
-		std::cout << "Max error of orig_sin(): " << sinErr << std::endl;
-
-		double ourSinErr = max_error(our_sin, orig_sin, 0, PI);
-		std::cout << "Max error of our_sin(): " << ourSinErr << std::endl;
-		std::cout << std::endl;
-	}*/
-
-	/*{
-		std::cout << "Range -Pi to Pi" << std::endl;
-
-		double sinErr = max_error(orig_sin, orig_sin, -PI, PI);
-		std::cout << "Max error of orig_sin(): " << sinErr << std::endl;
-
-		double ourSinErr = max_error(our_sin, orig_sin, -PI, PI);
-		std::cout << "Max error of our_sin(): " << ourSinErr << std::endl;
-		std::cout << std::endl;
-	}*/
-
 	{
 		std::cout << "Range -Pi to Pi" << std::endl;
 
-		double sinErr = max_error(orig_sin, orig_sin, -PI, PI);
+		double sinErr = max_error(orig_sin, orig_sin, -M_PI, M_PI);
 		std::cout << "Max error of orig_sin(): " << sinErr << std::endl;
 
-		double ourSinErr = max_error(our_sin, orig_sin, -PI, PI);
+		double ourSinErr = max_error(our_sin_branchless, orig_sin, -M_PI, M_PI);
 		std::cout << "Max error of our_sin(): " << ourSinErr << std::endl;
 		std::cout << std::endl;
 	}
